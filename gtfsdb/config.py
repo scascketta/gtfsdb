@@ -1,4 +1,8 @@
-from ConfigParser import ConfigParser
+try:
+    from ConfigParser import ConfigParser
+except ImportError:
+    from configparser import ConfigParser
+
 import logging.config
 import os
 from pkg_resources import resource_filename  # @UnresolvedImport

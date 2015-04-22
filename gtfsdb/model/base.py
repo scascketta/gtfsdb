@@ -64,8 +64,8 @@ class _Base(object):
         file_path = os.path.join(directory, cls.filename)
         if os.path.exists(file_path):
             f = open(file_path, 'r')
-            utf8_file = util.UTF8Recoder(f, 'utf-8-sig')
-            reader = csv.DictReader(utf8_file)
+            # utf8_file = util.UTF8Recoder(f, 'utf-8-sig')
+            reader = csv.DictReader(f)
             reader.fieldnames = [field.strip().lower()
                                  for field in reader.fieldnames]
             table = cls.__table__
@@ -89,7 +89,12 @@ class _Base(object):
     @classmethod
     def make_record(cls, row):
         for k, v in row.items():
-            if isinstance(v, basestring):
+            try:
+                is_string = isinstance(v, basestring)
+            except NameError:
+                is_string = isinstance(v, str)
+
+            if is_string:
                 row[k] = v.strip()
             if (k not in cls.__table__.c):
                 del row[k]

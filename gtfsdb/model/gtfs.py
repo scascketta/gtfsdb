@@ -3,8 +3,12 @@ import logging
 import shutil
 import tempfile
 import time
-from urllib import urlretrieve
 import zipfile
+
+try:
+    from urllib import urlretrieve
+except ImportError:
+    from urllib.request import urlretrieve
 
 from gtfsdb import config
 from .route import Route
@@ -17,7 +21,10 @@ class GTFS(object):
 
     def __init__(self, filename):
         self.file = filename
-        self.local_file = urlretrieve(filename)[0]
+        try:
+            self.local_file = urlretrieve(filename)[0]
+        except ValueError:
+            self.local_file = filename
 
     def load(self, db, **kwargs):
         '''Load GTFS into database'''
