@@ -64,7 +64,6 @@ class _Base(object):
         file_path = os.path.join(directory, cls.filename)
         if os.path.exists(file_path):
             f = open(file_path, 'r')
-            # utf8_file = util.UTF8Recoder(f, 'utf-8-sig')
             reader = csv.DictReader(f)
             reader.fieldnames = [field.strip().lower()
                                  for field in reader.fieldnames]
